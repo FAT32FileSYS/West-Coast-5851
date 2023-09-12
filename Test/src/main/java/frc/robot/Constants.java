@@ -20,10 +20,21 @@ public final class Constants {
     leftBack = 15,
     rightFront = 12,
     rightBack = 13,
+    intake = 1,
+    flyWheel = 1,
+
+    /*left front = 1
+      left back = 2
+      right front = 3
+      right back = 4
+    */
+     
     
-    armando = 0,  leftAxis = 1, rightAxis = 1;
+    armando = 0,  leftAxis = 1, rightAxis = 1, intakeStart = 6, intakeRev = 5, flywheelStart = 4;
 
     public static double driveSpeed = 0.5;
+    public static double intakeSpeed = 0.6;
+
   }
 
 }

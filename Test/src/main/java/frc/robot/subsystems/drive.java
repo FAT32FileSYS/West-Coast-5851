@@ -4,19 +4,24 @@
 
 package frc.robot.subsystems;
   
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriverConstants;
 
-public class drive extends SubsystemBase {
+public class drive extends SubsystemBase {  
   /** Creates a new drive. */
-  VictorSP leftFront = new VictorSP(DriverConstants.leftFront);
-  VictorSP leftBack = new VictorSP(DriverConstants.leftBack);
+  WPI_TalonFX leftFront = new WPI_TalonFX(DriverConstants.leftFront);
+  WPI_TalonFX leftBack = new WPI_TalonFX(DriverConstants.leftBack);
 
-  VictorSP rightFront = new VictorSP(DriverConstants.rightFront);
-  VictorSP rightBack = new VictorSP(DriverConstants.rightBack);
+  WPI_TalonFX rightFront = new WPI_TalonFX(DriverConstants.rightFront);
+  WPI_TalonFX rightBack = new WPI_TalonFX(DriverConstants.rightBack);
+
+  TalonFX intake = new TalonFX(DriverConstants.intake);
 
   MotorControllerGroup leftSide = new MotorControllerGroup(leftBack, leftFront);
   MotorControllerGroup rightSide = new MotorControllerGroup(rightBack, rightFront);
