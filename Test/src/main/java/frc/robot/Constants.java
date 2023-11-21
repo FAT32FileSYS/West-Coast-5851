@@ -16,12 +16,10 @@ public final class Constants {
      
   public final static class DriverConstants {
     public static int 
-    leftFront = 14,
-    leftBack = 15,
-    rightFront = 12,
-    rightBack = 13,
-    intake = 1,
-    flyWheel = 1,
+    leftFront = 1,
+    leftBack = 2,
+    rightFront = 3,
+    rightBack = 4,
 
     /*left front = 1
       left back = 2
@@ -29,12 +27,20 @@ public final class Constants {
       right back = 4
     */
      
-    
-    armando = 0,  leftAxis = 1, rightAxis = 1, intakeStart = 6, intakeRev = 5, flywheelStart = 4;
+    //Armando controls
+    armando = 0,  leftAxis = 1, rightAxis = 5, 
+    cascade = 1, claw = 2, clawArm = 3, clawButton = 1, clawOpen = 6, clawClose = 5, clawArmUp = 8, clawArmDown = 7,
 
-    public static double driveSpeed = 0.5;
-    public static double intakeSpeed = 0.6;
+    //driver 2 controls
+    driver2 = 1;
 
+    public static double driveSpeed = .75, intakeSpeed = 0.6, cascadeSpeed = 1, clawSpeed = 1, clawArmSpeed = 1;
+
+  }
+
+  public static final class AutoConstants{
+    public static final double
+    KP = 0.4, KI = 0.3, KD = 0.02;
   }
 
 }

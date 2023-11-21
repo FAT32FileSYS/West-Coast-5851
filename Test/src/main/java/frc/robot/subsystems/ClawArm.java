@@ -4,10 +4,21 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriverConstants;
 
 public class ClawArm extends SubsystemBase {
   /** Creates a new ClawArm. */
+
+  WPI_TalonFX clawArm = new WPI_TalonFX(DriverConstants.clawArm);
+
+  public void Move(double clawArmSpeed)
+  {
+    clawArm.set(clawArmSpeed);
+  }
+
   public ClawArm() {}
 
   @Override

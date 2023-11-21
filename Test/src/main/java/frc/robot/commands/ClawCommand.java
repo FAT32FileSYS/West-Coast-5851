@@ -5,40 +5,36 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Claw;
 
-
-
-public class IntakeCommand extends CommandBase {
-  /** Creates a new IntakeCommand. */
-  Intake intakeSub;
+public class ClawCommand extends CommandBase {
+  /** Creates a new ClawCommand. */
+  Claw clawSub;
   double speed;
 
-  public IntakeCommand(double intakeSpeed, Intake intake) {
+  public ClawCommand(double clawSpeed, Claw claw) {
     // Use addRequirements() here to declare subsystem dependencies.
-
-    intakeSub = intake;
-    speed = intakeSpeed;
-    addRequirements(intakeSub);
-
+    clawSub = claw;
+    speed = clawSpeed;
+    addRequirements(clawSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeSub.Move(speed);
+    clawSub.Move(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSub.Move(speed);
+    clawSub.Move(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSub.Move(0);
+    clawSub.Move(0);
   }
 
   // Returns true when the command should end.

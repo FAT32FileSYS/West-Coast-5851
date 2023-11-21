@@ -5,39 +5,37 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.FlyWheel;
+import frc.robot.subsystems.ClawArm;
 
-public class FlyWheelCommand extends CommandBase {
-  /** Creates a new FlyWheelCommand. */
-  FlyWheel flyWheelSub;
+public class ClawArmCommand extends CommandBase {
+  /** Creates a new ClawArmCommand. */
+  ClawArm clawArmSub;
   double speed;
 
-  public FlyWheelCommand(double flyWheelSpeed, FlyWheel flyWheel) {
+  public ClawArmCommand(double clawArmSpeed, ClawArm clawArm) {
     // Use addRequirements() here to declare subsystem dependencies.
 
-    flyWheelSub = flyWheel;
-    speed = flyWheelSpeed;
-    addRequirements(flyWheelSub);
+    clawArmSub = clawArm;
+    speed = clawArmSpeed;
+    addRequirements(clawArmSub);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    flyWheelSub.Move(speed);
-
+    clawArmSub.Move(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    flyWheelSub.Move(speed);
-
+    clawArmSub.Move(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    flyWheelSub.Move(0);
+    clawArmSub.Move(0);
   }
 
   // Returns true when the command should end.
