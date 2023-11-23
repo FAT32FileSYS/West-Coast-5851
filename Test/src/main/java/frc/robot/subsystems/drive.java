@@ -13,17 +13,19 @@ import frc.robot.Constants.DriverConstants;
 
 public class drive extends SubsystemBase {  
   /** Creates a new drive. */
-  WPI_TalonFX leftFront = new WPI_TalonFX(DriverConstants.leftFront);
-  WPI_TalonFX leftBack = new WPI_TalonFX(DriverConstants.leftBack);
+  public WPI_TalonFX leftFront = new WPI_TalonFX(DriverConstants.leftFront);
+  public WPI_TalonFX leftBack = new WPI_TalonFX(DriverConstants.leftBack);
 
-  WPI_TalonFX rightFront = new WPI_TalonFX(DriverConstants.rightFront);
-  WPI_TalonFX rightBack = new WPI_TalonFX(DriverConstants.rightBack);
+  public WPI_TalonFX rightFront = new WPI_TalonFX(DriverConstants.rightFront);
+  public WPI_TalonFX rightBack = new WPI_TalonFX(DriverConstants.rightBack);
 
   MotorControllerGroup leftSide = new MotorControllerGroup(leftBack, leftFront);
   MotorControllerGroup rightSide = new MotorControllerGroup(rightBack, rightFront);
 
   DifferentialDrive drive = new DifferentialDrive(leftSide, rightSide);
   
+  public double leftSideEncoder = leftFront.getSelectedSensorPosition();
+  public double rightSideEncoder = rightFront.getSelectedSensorPosition();
 
   public drive() 
   {

@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.drive;
@@ -15,20 +16,21 @@ import frc.robot.Constants.AutoConstants;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class autoDrivePIDCommand extends CommandBase {
 
-  private final drive driveSub;
-  private final PIDController drivePID;
-  private final double goal;
-  private boolean done;
+  public drive drive = new drive();
 
-  public autoDrivePIDCommand(double setPoint, drive drive) {
-    goal = setPoint;
-    driveSub = drive;
-    drivePID = new PIDController(AutoConstants.KP, AutoConstants.KI, AutoConstants.KD);
+  private double leftsetPoint = 5;
+  private final double driveTick2Feet = 1.0 / 128 * 6 * Math.PI / 12;
+  private double leftcurrentLocation = drive.leftSideEncoder * driveTick2Feet;
+  private double currentTime = Timer.getFPGATimestamp();
+
+  private double leftcurrentError = leftsetPoint - leftcurrentLocation;
+  
+
+  double leftDerivitive = AutoConstants.KP * leftcurrentError;
+  double leftIntegral = leftcurrentError * currentTime;
     
-    drivePID.setSetpoint(setPoint);
 
-    addRequirements(driveSub);
-  }
+
 
   // Returns true when the command should end.
   @Override

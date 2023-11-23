@@ -34,7 +34,7 @@ public final class Constants {
     //driver 2 controls
     driver2 = 1;
 
-    public static double driveSpeed = .75, intakeSpeed = 0.6, cascadeSpeed = 1, clawSpeed = 1, clawArmSpeed = 1;
+    public static double driveSpeed = 1, intakeSpeed = 0.6, cascadeSpeed = 1, clawSpeed = 1, clawArmSpeed = 1;
 
   }
 
