@@ -4,10 +4,8 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.drive;
 import frc.robot.Constants.AutoConstants;
 
@@ -16,22 +14,85 @@ import frc.robot.Constants.AutoConstants;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class autoDrivePIDCommand extends CommandBase {
 
-  public drive drive = new drive();
+  public double pastTime;
+  public double leftMotorOutput;
+  public double rightMotorOutput;
+  private drive drivePID;
+  double leftPastError;
+  double rightPastError;
+/* 
+  public autoDrivePIDCommand(drive drive, double leftMotorOutput, double rightMotorOutput)
+  {
+    drive = drivePID;
+    leftMotorOutput = this.leftMotorOutput;
+    rightMotorOutput = this.rightMotorOutput;
+    addRequirements(drive);
+  }*/
 
-  private double leftsetPoint = 5;
-  private final double driveTick2Feet = 1.0 / 128 * 6 * Math.PI / 12;
-  private double leftcurrentLocation = drive.leftSideEncoder * driveTick2Feet;
-  private double currentTime = Timer.getFPGATimestamp();
+  @Override
+  public void initialize() {
+    leftPastError = 0;
+    rightPastError = 0;
+    pastTime = Timer.getFPGATimestamp();
+  }
 
-  private double leftcurrentError = leftsetPoint - leftcurrentLocation;
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    
+    autoDrivePID();
+
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    
+  }
+
+
+  public void autoDrivePID()
+  {
+  
+  drive drive = new drive();
+
+
+  final double driveTick2Feet = 1.0 / 128 * 6 * Math.PI / 12;
+  double currentTime = Timer.getFPGATimestamp();
+  double dt = currentTime - pastTime;
   
 
-  double leftDerivitive = AutoConstants.KP * leftcurrentError;
-  double leftIntegral = leftcurrentError * currentTime;
-    
+  //distance units in feet
+  double leftSetPoint = 5; 
+  double rightSetPoint = 5;
+  
+  double leftCurrentLocation = drive.leftSideEncoder * driveTick2Feet;
+  double rightCurrentLocation = drive.rightSideEncoder * driveTick2Feet;
 
+  double leftCurrentError = leftSetPoint - leftCurrentLocation;
+  double rightCurrentError = rightSetPoint - rightCurrentLocation;
+  
+  double leftConstant = AutoConstants.KP * leftCurrentError;
+  double leftDerivitive = AutoConstants.KD * (leftCurrentError - leftPastError) / dt;
+  double leftcurrentIntegral = AutoConstants.KI * ((leftCurrentError * currentTime) - (leftCurrentError * pastTime));
 
+  double rightConstant = AutoConstants.KP * rightCurrentError;
+  double rightDerivitive = AutoConstants.KD * (rightCurrentError - rightPastError) / dt;
+  double rightcurrentIntegral = AutoConstants.KI * ((rightCurrentError * currentTime) - (rightCurrentError * pastTime));
 
+  double leftTotalIntegral =+ leftcurrentIntegral;
+  double rightTotalIntegral =+ rightcurrentIntegral;
+
+  leftMotorOutput = leftConstant + leftDerivitive + leftTotalIntegral;
+  rightMotorOutput = rightConstant + rightDerivitive + rightTotalIntegral;
+
+  pastTime = currentTime;
+  leftPastError = leftCurrentError;
+  rightPastError = rightCurrentError;
+  }
+  
+  
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

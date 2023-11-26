@@ -6,11 +6,14 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.autoDrivePIDCommand;
 import frc.robot.subsystems.drive;
 import edu.wpi.first.wpilibj.Encoder;
+import frc.robot.commands.autoDrivePIDCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -20,8 +23,12 @@ import edu.wpi.first.wpilibj.Encoder;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Command autoDrivePIDCMD;
+  private autoDrivePIDCommand autodrivePID;
+  double pastTime;
   
   private RobotContainer m_robotContainer;
+  private drive drive = new drive();
 
 
   /**
@@ -33,6 +40,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    autoDrivePIDCMD = new autoDrivePIDCommand();
+    autodrivePID = new autoDrivePIDCommand();
   }
 
   /**
@@ -62,16 +71,29 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    autoDrivePIDCMD = m_robotContainer.getAutonomousCommand();
 
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    pastTime = Timer.getFPGATimestamp();
+    drive.leftSideEncoder = 0;
+    drive.rightSideEncoder = 0;
+
+
+    if (autodrivePID != null)
+    {
+      autodrivePID.schedule();
     }
+  
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() 
+  {
+    autodrivePID.pastTime = pastTime;
+    
+    drive.move(autodrivePID.leftMotorOutput, autodrivePID.rightMotorOutput);
+
+  }
 
   @Override
   public void teleopInit() {
