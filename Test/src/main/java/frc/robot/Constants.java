@@ -40,7 +40,7 @@ public final class Constants {
 
   public static final class AutoConstants{
     public static final double
-    KP = 0.4, KI = 0.3, KD = 0.02;
+    KP = 0.05, KI = 0.05, KD = 0.08;
   }
 
 }

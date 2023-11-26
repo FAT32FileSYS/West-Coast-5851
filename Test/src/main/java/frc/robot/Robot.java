@@ -76,6 +76,16 @@ public class Robot extends TimedRobot {
     pastTime = Timer.getFPGATimestamp();
     drive.leftSideEncoder = 0;
     drive.rightSideEncoder = 0;
+    autodrivePID.leftPastError = 0;
+    autodrivePID.rightPastError = 0;
+    autodrivePID.leftMotorOutput = 0;
+    autodrivePID.rightMotorOutput = 0;
+    autodrivePID.leftPastError = 0;
+    autodrivePID.rightPastError = 0;
+    autodrivePID.rightCurrentLocation = 0;
+    autodrivePID.leftCurrentLocation = 0;
+    autodrivePID.leftTotalIntegral = 0;
+    autodrivePID.rightTotalIntegral = 0;
 
 
     if (autodrivePID != null)

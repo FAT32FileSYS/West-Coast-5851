@@ -17,9 +17,15 @@ public class autoDrivePIDCommand extends CommandBase {
   public double pastTime;
   public double leftMotorOutput;
   public double rightMotorOutput;
-  private drive drivePID;
-  double leftPastError;
-  double rightPastError;
+  public drive drivePID;
+  public double leftPastError;
+  public double rightPastError;
+  public double leftCurrentLocation;
+  public double rightCurrentLocation;
+  public double leftTotalIntegral;
+  public double rightTotalIntegral;
+
+
 /* 
   public autoDrivePIDCommand(drive drive, double leftMotorOutput, double rightMotorOutput)
   {
@@ -31,8 +37,9 @@ public class autoDrivePIDCommand extends CommandBase {
 
   @Override
   public void initialize() {
-    leftPastError = 0;
-    rightPastError = 0;
+    
+  
+
     pastTime = Timer.getFPGATimestamp();
   }
 
@@ -42,6 +49,9 @@ public class autoDrivePIDCommand extends CommandBase {
   public void execute() {
     
     autoDrivePID();
+
+    System.out.println("left" + leftMotorOutput);
+    System.out.println("right" + rightMotorOutput);
 
   }
 
@@ -67,8 +77,8 @@ public class autoDrivePIDCommand extends CommandBase {
   double leftSetPoint = 5; 
   double rightSetPoint = 5;
   
-  double leftCurrentLocation = drive.leftSideEncoder * driveTick2Feet;
-  double rightCurrentLocation = drive.rightSideEncoder * driveTick2Feet;
+  leftCurrentLocation = drive.leftSideEncoder * driveTick2Feet;
+  rightCurrentLocation = drive.rightSideEncoder * driveTick2Feet;
 
   double leftCurrentError = leftSetPoint - leftCurrentLocation;
   double rightCurrentError = rightSetPoint - rightCurrentLocation;
@@ -81,8 +91,8 @@ public class autoDrivePIDCommand extends CommandBase {
   double rightDerivitive = AutoConstants.KD * (rightCurrentError - rightPastError) / dt;
   double rightcurrentIntegral = AutoConstants.KI * ((rightCurrentError * currentTime) - (rightCurrentError * pastTime));
 
-  double leftTotalIntegral =+ leftcurrentIntegral;
-  double rightTotalIntegral =+ rightcurrentIntegral;
+  leftTotalIntegral =+ leftcurrentIntegral;
+  rightTotalIntegral =+ rightcurrentIntegral;
 
   leftMotorOutput = leftConstant + leftDerivitive + leftTotalIntegral;
   rightMotorOutput = rightConstant + rightDerivitive + rightTotalIntegral;
