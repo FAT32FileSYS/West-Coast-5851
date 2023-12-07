@@ -23,7 +23,6 @@ import frc.robot.commands.autoDrivePIDCommand;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private Command autoDrivePIDCMD;
   private autoDrivePIDCommand autodrivePID;
   double pastTime;
   
@@ -40,8 +39,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    autoDrivePIDCMD = new autoDrivePIDCommand();
-    autodrivePID = new autoDrivePIDCommand();
+    autodrivePID = new autoDrivePIDCommand(); //for variables
   }
 
   /**
@@ -71,7 +69,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    autoDrivePIDCMD = m_robotContainer.getAutonomousCommand();
 
     pastTime = Timer.getFPGATimestamp();
     drive.leftSideEncoder = 0;
@@ -87,7 +84,6 @@ public class Robot extends TimedRobot {
     autodrivePID.leftTotalIntegral = 0;
     autodrivePID.rightTotalIntegral = 0;
 
-
     if (autodrivePID != null)
     {
       autodrivePID.schedule();
@@ -99,10 +95,11 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() 
   {
-    autodrivePID.pastTime = pastTime;
-    
-    drive.move(autodrivePID.leftMotorOutput, autodrivePID.rightMotorOutput);
-
+    //drive.drive.tankDrive(autodrivePID.leftMotorOutput, autodrivePID.rightMotorOutput);
+    drive.rightFront.set(-autodrivePID.rightMotorOutput);
+    drive.rightBack.set(-autodrivePID.rightMotorOutput);
+    drive.leftBack.set(autodrivePID.leftMotorOutput);
+    drive.leftBack.set(autodrivePID.leftMotorOutput);
   }
 
   @Override

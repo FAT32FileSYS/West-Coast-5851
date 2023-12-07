@@ -53,8 +53,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     driveSub.setDefaultCommand(armandoMove);
-    configureBindings();
-
 
   }
 
@@ -64,9 +62,6 @@ public class RobotContainer {
   }
   
   public Command getAutonomousCommand() {
-
-    new SequentialCommandGroup(new autoDrivePIDCommand());
-
     return null;
   }
 }

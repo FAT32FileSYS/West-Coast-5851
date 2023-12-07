@@ -3,9 +3,10 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-  
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,10 +23,10 @@ public class drive extends SubsystemBase {
   MotorControllerGroup leftSide = new MotorControllerGroup(leftBack, leftFront);
   MotorControllerGroup rightSide = new MotorControllerGroup(rightBack, rightFront);
 
-  DifferentialDrive drive = new DifferentialDrive(leftSide, rightSide);
+  public DifferentialDrive drive = new DifferentialDrive(leftSide, rightSide);
   
-  public double leftSideEncoder = leftFront.getSelectedSensorPosition();
-  public double rightSideEncoder = rightFront.getSelectedSensorPosition();
+  public double leftSideEncoder;
+  public double rightSideEncoder;
 
   public drive() 
   {

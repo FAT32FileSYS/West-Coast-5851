@@ -24,7 +24,9 @@ public class autoDrivePIDCommand extends CommandBase {
   public double rightCurrentLocation;
   public double leftTotalIntegral;
   public double rightTotalIntegral;
-
+  public double leftSideEncoder;
+  public double rightSideEncoder;
+  drive drive = new drive();
 
 /* 
   public autoDrivePIDCommand(drive drive, double leftMotorOutput, double rightMotorOutput)
@@ -37,19 +39,32 @@ public class autoDrivePIDCommand extends CommandBase {
 
   @Override
   public void initialize() {
-    
-  
-
     pastTime = Timer.getFPGATimestamp();
+    drive.leftSideEncoder = 0;
+    drive.rightSideEncoder = 0;
+    leftPastError = 0;
+    rightPastError = 0;
+    leftMotorOutput = 0;
+    rightMotorOutput = 0;
+    leftPastError = 0;
+    rightPastError = 0;
+    rightCurrentLocation = 0;
+    leftCurrentLocation = 0;
+    leftTotalIntegral = 0;
+    rightTotalIntegral = 0;
+    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
   }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    autoDrivePID();
 
+    leftSideEncoder = drive.leftFront.getSelectedSensorPosition();
+    rightSideEncoder = drive.rightFront.getSelectedSensorPosition();
+
+    autoDrivePID();
+    
     System.out.println("left" + leftMotorOutput);
     System.out.println("right" + rightMotorOutput);
 
@@ -64,24 +79,25 @@ public class autoDrivePIDCommand extends CommandBase {
 
   public void autoDrivePID()
   {
-  
-  drive drive = new drive();
-
-
-  final double driveTick2Feet = 1.0 / 128 * 6 * Math.PI / 12;
+  final double driveTick2Inches = (6 * Math.PI) / 16384;
   double currentTime = Timer.getFPGATimestamp();
   double dt = currentTime - pastTime;
+  System.out.println("dt" + dt + "current time" + currentTime + "past time" + pastTime);
   
 
-  //distance units in feet
-  double leftSetPoint = 5; 
-  double rightSetPoint = 5;
+  //distance units in inches
+  double leftSetPoint = 12; 
+  double rightSetPoint = 12;
   
-  leftCurrentLocation = drive.leftSideEncoder * driveTick2Feet;
-  rightCurrentLocation = drive.rightSideEncoder * driveTick2Feet;
+  leftCurrentLocation = leftSideEncoder * driveTick2Inches;
+  rightCurrentLocation = rightSideEncoder * driveTick2Inches;
+
+  System.out.println("left location" + leftCurrentLocation + "right location" + rightCurrentLocation);
 
   double leftCurrentError = leftSetPoint - leftCurrentLocation;
   double rightCurrentError = rightSetPoint - rightCurrentLocation;
+
+  System.out.println("left error" + leftCurrentError + "right error" + rightCurrentError + "leftpast error" + leftPastError + "rightpast error" + rightPastError);
   
   double leftConstant = AutoConstants.KP * leftCurrentError;
   double leftDerivitive = AutoConstants.KD * (leftCurrentError - leftPastError) / dt;
@@ -91,12 +107,13 @@ public class autoDrivePIDCommand extends CommandBase {
   double rightDerivitive = AutoConstants.KD * (rightCurrentError - rightPastError) / dt;
   double rightcurrentIntegral = AutoConstants.KI * ((rightCurrentError * currentTime) - (rightCurrentError * pastTime));
 
-  leftTotalIntegral =+ leftcurrentIntegral;
-  rightTotalIntegral =+ rightcurrentIntegral;
+  leftTotalIntegral += leftcurrentIntegral;
+  rightTotalIntegral += rightcurrentIntegral;
 
   leftMotorOutput = leftConstant + leftDerivitive + leftTotalIntegral;
   rightMotorOutput = rightConstant + rightDerivitive + rightTotalIntegral;
 
+  System.out.println("left mototr output" + leftMotorOutput + "right mtotor output" + rightMotorOutput);
   pastTime = currentTime;
   leftPastError = leftCurrentError;
   rightPastError = rightCurrentError;
