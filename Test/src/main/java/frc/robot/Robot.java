@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.autoDrivePIDCommand;
 import frc.robot.subsystems.drive;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.commands.autoDrivePIDCommand;
 
@@ -29,6 +30,8 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private drive drive = new drive();
 
+  String trajectoryJSON = "src/main/deploy/pathplanner/generatedJSON/pathfinder.wpilib.json";
+  Trajectory trajectory = new Trajectory();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -40,6 +43,10 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     autodrivePID = new autoDrivePIDCommand(); //for variables
+
+
+    
+
   }
 
   /**

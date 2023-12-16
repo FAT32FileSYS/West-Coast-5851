@@ -6,11 +6,13 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriverConstants;
+//import 
 
 public class drive extends SubsystemBase {  
   /** Creates a new drive. */
@@ -25,12 +27,18 @@ public class drive extends SubsystemBase {
 
   public DifferentialDrive drive = new DifferentialDrive(leftSide, rightSide);
   
-  public double leftSideEncoder;
-  public double rightSideEncoder;
+  //public double leftSideEncoder;
+  //public double rightSideEncoder;
+
+  gyro.
 
   public drive() 
   {
     System.out.println("Sub works");
+  }
+
+  public Pose2d getPose() {
+    return swerveOdometry.getPoseMeters();
   }
 
 

@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -34,13 +36,38 @@ public final class Constants {
     //driver 2 controls
     driver2 = 1;
 
-    public static double driveSpeed = 1, intakeSpeed = 0.6, cascadeSpeed = 1, clawSpeed = 1, clawArmSpeed = 1;
+    public static double driveSpeed = .6, intakeSpeed = 0.6, cascadeSpeed = 1, clawSpeed = 1, clawArmSpeed = 1;
 
   }
 
   public static final class AutoConstants{
     public static final double
     KP = 0.2, KI = 0.2, KD = 0.15;
+    public static final double kPXController = 3;
+    public static final double kDXController = 0;
   }
+
+  public static final class KineConstants {
+    public static final double kCountsPerRev = 2048,
+        kGearRatio = 6.9048, // may change
+        kWheelRadiusInches = 3,
+
+        ksVolts = 0.21274,
+        kvVoltSecondsPerMeter = 1.5901,
+        kaVoltSecondSquaredPerMeter = 0.2235,
+        kpDriveVelocity = 0.43958,
+
+        kTrackWidthMeters = Units.inchesToMeters(25),
+
+        kMaxSpeedMetersPerSecond = 2,
+        kMaxAccelerationMetersPerSecSquared = 2,
+
+        kRamseteB = 2,
+        kRamseteZeta = .7;
+
+    public static final DifferentialDriveKinematics kDrive = new DifferentialDriveKinematics(kTrackWidthMeters);
+
+  }
+
 
 }
